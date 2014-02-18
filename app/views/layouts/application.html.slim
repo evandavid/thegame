@@ -1,0 +1,64 @@
+doctype
+html[lang="en"]
+  head
+    meta[charset="utf-8"]
+    meta[http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"]
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    title
+      = content_for?(:title) ? yield(:title) : "TheGame"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
+    = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+  body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.btn.btn-navbar[data-target=".nav-collapse" data-toggle="collapse"]
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand[href="#"]
+            | TheGame
+          .container.nav-collapse
+    br
+    br
+    br
+    .container
+      .row
+        .span3
+          .well.sidebar-nav
+            h3
+              | Filter
+            form action="#{root_path}" method="GET"
+              ul.nav.nav-list style="margin-left:-14px" 
+                li.nav-header 
+                  | Platform #{params['platform'].to_s}
+                  span 
+                    small style="margin-left:10px"
+                      a href="#{root_path}" x
+              input [type="text" name="search" class="form-control" 
+                style="padding: 15px 13px;" placeholder="keyword" value="#{params['search'].to_s}"]
+              input [type="hidden" name="platform" value="#{params['platform'].to_s}"]
+              button class="btn btn-info" Search
+        .span6
+          = bootstrap_flash
+          = yield
+        .span3
+          .well.sidebar-nav
+            h3
+              | Video Games
+            ul.nav.nav-list
+              li.nav-header
+                | Platforms
+              - @productsHash.each do |game|
+                - unless game.blank?
+                  li
+                    = link_to "#{game}", "/?platform=#{game}"
+      footer
+        p
+          | © Evan David Kristian 2014

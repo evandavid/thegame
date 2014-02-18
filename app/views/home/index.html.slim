@@ -1,0 +1,23 @@
+- if @all_games['results'].blank?
+  h2 #{@all_games['message']}
+- else
+  .row
+    - @all_games['results'].each do |game|
+      .span2
+        h5 Brand: #{game['brand'].to_s}
+      .span2
+        h5 Category: #{game['category'].to_s}
+      .span2
+        h5 Price: $#{game['price'].to_s}
+      .span6
+        h3 style="margin:-10px 0 -7px 0; line-height: 0.8;" #{game["name"].to_s}
+      .span6
+        h5 Feature
+        ul
+          - if game['features'].blank?
+            li -
+          - else
+            - game['features'].each do |k,v|
+              li #{k}: #{v}
+      .span6
+        hr
